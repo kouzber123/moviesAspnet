@@ -2,7 +2,7 @@ using tomtest.Data.DTOs.MovieDTOs;
 
 namespace tomtest.Data.DTOs
 {
-  public class GeneralCharacterDto
+  public class CharactersWithMoviesListDto
   {
 
     public int Id { get; set; }

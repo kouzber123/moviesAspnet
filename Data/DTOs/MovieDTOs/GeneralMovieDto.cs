@@ -2,6 +2,7 @@ using tomtest.Data.DTOs.FranchiseDTOs;
 
 namespace tomtest.Data.DTOs.MovieDTOs
 {
+    // General Movie DTO.
   public class GeneralMovieDto
   {
 
@@ -11,8 +12,6 @@ namespace tomtest.Data.DTOs.MovieDTOs
     public string Director { get; set; }
     public string PictureUrl { get; set; }
     public string TrailerUrl { get; set; }
-    public CharacterDto[] Characters { get; set; }
-    public int GeneralFranchiseDtoId { get; set; }
     public GeneralFranchiseDto Franchise { get; set; }
 
   }

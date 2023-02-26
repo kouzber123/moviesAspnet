@@ -1,7 +1,9 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using moviesDb;
 using moviesDb.Models;
 using tomtest.Data.DTOs;
+using tomtest.Data.DTOs.CharacterDTOs;
 using tomtest.Data.DTOs.FranchiseDTOs;
 using tomtest.Data.DTOs.MovieDTOs;
 using tomtest.Data.Repositories.InterfaceRepository;
@@ -12,16 +14,36 @@ namespace tomtest.Data.Repositories.ConcreteRepository
   {
     private readonly DataContext _context;
 
-    public CharacterRepository(DataContext context)
+    private readonly IMapper _mapper;
+
+    public CharacterRepository(DataContext context, IMapper mapper)
     {
+      _mapper = mapper;
 
       _context = context;
     }
 
-    public async Task<CharacterDto> Add(CreateCharacterDto characterDto)
+    public async Task<bool> Update(int id, UpdateCharacterDto characterDto)
     {
 
+      var character = await _context.Characters.FirstOrDefaultAsync(x => x.Id == id);
 
+      if (character == null)
+      {
+        throw new ArgumentNullException("ID was not found");
+      }
+
+      _mapper.Map(characterDto, character);
+      _context.Entry(character).State = EntityState.Modified;
+      await _context.SaveChangesAsync();
+
+      return true;
+
+    }
+
+    // Creates a character.
+    public async Task<CharacterDto> Add(CreateCharacterDto characterDto)
+    {
       var character = new Character
       {
         Id = 0,
@@ -69,12 +91,19 @@ namespace tomtest.Data.Repositories.ConcreteRepository
       return savedCharacter;
     }
 
-    public Task<CharacterDto> Delete(int id)
+    public void Delete(int id)
     {
-      throw new NotImplementedException();
+      var character = _context.Characters.FirstOrDefault(x => x.Id == id);
+
+      if (character != null)
+      {
+        _context.Characters.Remove(character);
+        _context.SaveChanges();
+      }
     }
 
-    public async Task<List<GeneralCharacterDto>> GetAll()
+    // Get all franchises.
+    public async Task<List<CharactersWithMoviesListDto>> GetAll()
     {
 
       var characters = await _context.Characters
@@ -82,7 +111,7 @@ namespace tomtest.Data.Repositories.ConcreteRepository
       .ThenInclude(m => m.Franchise)
       .ToListAsync();
 
-      return characters.Select(c => new GeneralCharacterDto
+      return characters.Select(c => new CharactersWithMoviesListDto
       {
         Id = c.Id,
         FullName = c.FullName,
@@ -100,9 +129,9 @@ namespace tomtest.Data.Repositories.ConcreteRepository
         }).ToList()
 
       }).ToList();
-
-
     }
+
+    // Gets a franchise by id.
     public async Task<CharacterDto> GetById(int id)
     {
 
@@ -142,82 +171,7 @@ namespace tomtest.Data.Repositories.ConcreteRepository
       };
       return characterDto;
     }
-
-    public Task<CharacterDto> Update(int id, CharacterDto characterDto)
-    {
-      throw new NotImplementedException();
-    }
   }
 }
 
 
-/*
-    var newCharacter = character.Select(c => new CharacterDto
-      {
-        FullName = characterDto.FullName,
-        Alias = characterDto.Alias,
-        Gender = characterDto.Gender,
-        Movies = c.Movies.Select(x => new MovieDto
-        {
-          Title = characterDto.Movies.Title,
-          Director = characterDto.Movies.Director,
-          ReleaseYear = characterDto.Movies.ReleaseYear,
-          TrailerUrl = characterDto.Movies.TrailerUrl,
-          PictureUrl = characterDto.Movies.PictureUrl
-
-        }).ToList()
-
-      }).ToList();
-      var movies = new MovieDto
-      {
-        Title = characterDto.Movies.Title,
-        Director = characterDto.Movies.Director,
-        ReleaseYear = characterDto.Movies.ReleaseYear,
-        TrailerUrl = characterDto.Movies.TrailerUrl,
-        PictureUrl = characterDto.Movies.PictureUrl
-
-
-
-        var characters = await _context.Characters.Include(c => c.Movies).ThenInclude(m => m.Franchise).ToListAsync();
-      var addUser = characters.Select(c => new CharacterDto
-      {
-        Id = 0,
-        FullName = characterDto.FullName,
-        Alias = characterDto.Alias,
-        Gender = characterDto.Gender,
-        PictureUrl = characterDto.PictureUrl,
-        Movies = characterDto.Movies.Select(x => new MovieDto
-        {
-          Id = 0,
-          Title = x.Title,
-          Genre = x.Genre,
-          ReleaseYear = x.ReleaseYear,
-          Director = x.Director,
-          TrailerUrl = x.TrailerUrl,
-          PictureUrl = x.PictureUrl,
-
-          Franchise = new FranchiseDto
-          {
-            Id = 0,
-            Name = characterDto.Franchise.Name,
-            Description = characterDto.Franchise.Description
-          }
-        }).ToList(),
-
-     
-      }
-           _context.Add(addUser);
-      );
-
-
-      _context.Add.Character(addUser)
-
-      };
-
-
-
-      //-----------------------------------
-
-      
-
-*/

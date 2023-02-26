@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
+using moviesDb.Models;
 using tomtest.Data.DTOs;
+using tomtest.Data.DTOs.CharacterDTOs;
 
 namespace tomtest.Data.Repositories.InterfaceRepository
 {
@@ -7,7 +10,7 @@ namespace tomtest.Data.Repositories.InterfaceRepository
     //crud
 
     //gets all characters
-    Task<List<GeneralCharacterDto>> GetAll();
+    Task<List<CharactersWithMoviesListDto>> GetAll();
 
     //by id
     Task<CharacterDto> GetById(int id);
@@ -16,9 +19,9 @@ namespace tomtest.Data.Repositories.InterfaceRepository
     Task<CharacterDto> Add(CreateCharacterDto characterDto);
 
     //delete
-    Task<CharacterDto> Delete(int id);
+    void Delete(int id);
     //update
-    Task<CharacterDto> Update(int id, CharacterDto characterDto);
+    Task<bool> Update(int id, UpdateCharacterDto characterDto);
 
 
 

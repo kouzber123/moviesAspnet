@@ -2,12 +2,13 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using moviesDb;
 using moviesDb.Models;
-using tomtest.Data.Models;
 
 namespace Seed
 {
   public class Seed
   {
+   
+   // Seed characters.
     public static async Task SeedCharacters(DataContext context)
     {
       if (await context.Characters.AnyAsync()) return;

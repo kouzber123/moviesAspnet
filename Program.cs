@@ -1,12 +1,9 @@
-using System.Reflection.Metadata.Ecma335;
-using IntoItIf.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Options;
 using moviesDb;
-using tomtest.Data.Models;
 using tomtest.Data.Repositories.ConcreteRepository;
 using tomtest.Data.Repositories.InterfaceRepository;
+using tomtest.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,18 +14,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
-builder.Services.AddDbContext<DataContext>(option => option.UseSqlServer(
-builder.Configuration.GetConnectionString("Db")
-));
-
-// builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
-// builder.Configuration.GetConnectionString("Db")
-// ));
-
-// var d = () => builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
-//   builder.Configuration.GetConnectionString("Db")
-// ));
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -47,6 +33,7 @@ app.MapControllers();
 
 using var scope = app.Services.CreateAsyncScope();
 var services = scope.ServiceProvider;
+
 try
 {
 
@@ -60,3 +47,5 @@ catch (Exception ex)
   logger.LogError(ex, "An Error occured during migration");
 }
 app.Run();
+
+
