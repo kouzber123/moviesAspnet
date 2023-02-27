@@ -2,6 +2,8 @@ using AutoMapper;
 using moviesDb.Models;
 using tomtest.Data.DTOs;
 using tomtest.Data.DTOs.CharacterDTOs;
+using tomtest.Data.DTOs.CreateMovieDTOs;
+using tomtest.Data.DTOs.UpdateMovieDTOs;
 
 namespace tomtest.Helpers
 {
@@ -25,6 +27,19 @@ namespace tomtest.Helpers
 
       CreateMap<Character, CreateCharacterDto>();
 
+      CreateMap<MovieDto, Movie>();
+      CreateMap<Movie, MovieDto>();
+
+      CreateMap<CreateMovieDto, Movie>();
+      CreateMap<Movie, CreateMovieDto>();
+
+      CreateMap<Franchise, FranchiseDto>();
+      CreateMap<FranchiseDto, Franchise>();
+
+
+
+      CreateMap<UpdateMovieDto, Movie>();
+      CreateMap<Movie, UpdateMovieDto>();
 
 
 

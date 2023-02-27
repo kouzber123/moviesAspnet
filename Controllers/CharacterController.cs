@@ -18,12 +18,8 @@ namespace tomtest.Controllers
     public CharacterController(ICharacterRepository characterRepository, IMapper mapper)
     {
       _mapper = mapper;
-
-
       _characterRepository = characterRepository;
     }
-
-
 
     // Gets all characters in the repository
     [HttpGet("GetAll")]
@@ -33,9 +29,7 @@ namespace tomtest.Controllers
 
       return Ok(characters);
     }
-
-
-    // Get a character by ID
+  // Get a character by ID
     [HttpGet("{id}")]
     public async Task<ActionResult<CharacterDto>> GetbyId(int id)
     {
@@ -97,6 +91,8 @@ namespace tomtest.Controllers
 
       return NoContent();
     }
+
+
 
   }
 }

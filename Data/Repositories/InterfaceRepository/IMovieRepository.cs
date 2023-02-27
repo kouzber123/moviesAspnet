@@ -1,13 +1,17 @@
 using tomtest.Data.DTOs;
+using tomtest.Data.DTOs.CreateMovieDTOs;
+using tomtest.Data.DTOs.MovieDTOs;
+using tomtest.Data.DTOs.UpdateMovieDTOs;
 
 namespace tomtest.Data.Repositories.InterfaceRepository
 {
   public interface IMovieRepository
   {
-    Task<IEnumerable<MovieDto>> GetAll();
+    Task<List<MovieListDto>> GetAll();
     Task<MovieDto> GetById(int id);
-    Task<MovieDto> Add(MovieDto MovieDto);
-    Task<MovieDto> Deletel(int id);
-    Task<MovieDto> Update(int id, MovieDto MovieDto);
+    Task<CreateMovieDto> Add(CreateMovieDto MovieDto);
+    void Delete(int id);
+    Task<bool> Update(int id,  UpdateMovieDto MovieDto);
+
   }
 }

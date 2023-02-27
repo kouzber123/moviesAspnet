@@ -23,6 +23,7 @@ namespace tomtest.Extensions
 
       services.AddCors();
       services.AddScoped<ICharacterRepository, CharacterRepository>();
+      services.AddScoped<IMovieRepository, MovieRepository>();
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
       services.AddAutoMapper(typeof(AppDomain));
 

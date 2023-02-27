@@ -1,11 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using tomtest.Data.DTOs.CharacterDTOs;
 
-namespace tomtest.Data.DTOs
+namespace tomtest.Data.DTOs.CreateMovieDTOs
 {
-  public class MovieDto
+  public class CreateMovieDto
   {
-
-
+    [JsonIgnore]
     public int Id { get; set; }
 
     public string Title { get; set; }
@@ -14,10 +18,13 @@ namespace tomtest.Data.DTOs
     public string Director { get; set; }
     public string PictureUrl { get; set; }
     public string TrailerUrl { get; set; }
-    public CharacterDto[] Characters { get; set; }
+    public List<UpdateCharacterDto> Characters { get; set; }
 
     [JsonIgnore]
     public int FranchiseId { get; set; }
-    public FranchiseDto Franchise { get; set; }
+    public FranchiseDto Franchise
+    {
+      get; set;
+    }
   }
 }
